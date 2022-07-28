@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "HcL1kAENhrRFsVAkv7sgMnYT6f1/cZIH+uQYuYsWotg=",
+  "Source": "WebAppPayments",
+  "BasePath": "_content/WebAppPayments",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
