@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebAppPayments.Models
 {
-    public partial class PaymentsContextContext : DbContext
+    public partial class PaymentsContext : DbContext
     {
-        public PaymentsContextContext()
+        public PaymentsContext()
         {
         }
 
-        public PaymentsContextContext(DbContextOptions<PaymentsContextContext> options)
+        public PaymentsContext(DbContextOptions<PaymentsContext> options)
             : base(options)
         {
         }
@@ -22,6 +22,10 @@ namespace WebAppPayments.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (!optionsBuilder.IsConfigured)
+            {
+
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,18 +52,6 @@ namespace WebAppPayments.Models
                 entity.Property(e => e.PaymentDescription)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
-                /*entity.HasOne(d => d.Client)
-                    .WithMany(p => p.Payments)
-                    .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Payment__ClientI__534D60F1");
-
-                entity.HasOne(d => d.PaymentType)
-                    .WithMany(p => p.Payments)
-                    .HasForeignKey(d => d.PaymentTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Payment__Payment__5441852A");*/
             });
 
             modelBuilder.Entity<PaymentType>(entity =>
