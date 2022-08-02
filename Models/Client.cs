@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace WebAppPayments.Models
 {
+    [DataContract]
     public partial class Client
     {
-        /*public Client()
-        {
-            Payments = new HashSet<Payment>();
-        }*/
-
+        [IgnoreDataMember]
+        [JsonIgnore]
         public int ClientId { get; set; }
         public string? Name { get; set; }
         public string? LastName { get; set; }
 
-        //public virtual ICollection<Payment> Payments { get; set; }
+       
     }
 }
