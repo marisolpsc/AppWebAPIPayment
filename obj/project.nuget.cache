@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PZytgW/mnK4tToP2ng+4kmGwWZ/vJeVxR403Kiuu4yknOUm6kXFvcm6OmpTI8sQhwCCIbxzviGKuy4dJzXRwow==",
+  "dgSpecHash": "ofKZVh0LONQ62x9NyV8lvYCwJ0a/0eByL8MOsaPxb/5PBlVKo4QTX1QmA0uq0Tk2S3OGgtN+UfJ1znglRXa0Kw==",
   "success": true,
   "projectFilePath": "C:\\Users\\CMarisol\\RiderProjects\\WebAppPayments\\WebAppPayments\\WebAppPayments.csproj",
   "expectedPackageFiles": [
@@ -66,6 +66,7 @@
     "C:\\Users\\CMarisol\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\system.codedom\\4.7.0\\system.codedom.4.7.0.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
+    "C:\\Users\\CMarisol\\.nuget\\packages\\system.composition.attributedmodel\\7.0.0-preview.5.22301.12\\system.composition.attributedmodel.7.0.0-preview.5.22301.12.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\system.data.sqlclient\\4.8.1\\system.data.sqlclient.4.8.1.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.0\\system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512",

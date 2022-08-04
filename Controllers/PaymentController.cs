@@ -43,7 +43,7 @@ public class PaymentController : Controller
         return Ok(response);
     }
     [HttpPost]
-    public IActionResult Create(PaymentRequest model)
+    public IActionResult Create(Payment model)
     {
         Response response = new Response();
         try
@@ -67,7 +67,7 @@ public class PaymentController : Controller
         return Ok(response);
     }
     [HttpPut]
-    public IActionResult Update(PaymentRequest model)
+    public IActionResult Update(Payment model)
     {
         Response response = new Response();
         try

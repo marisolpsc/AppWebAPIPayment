@@ -49,6 +49,7 @@ C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\S
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\System.CodeDom.dll
+C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\System.Composition.AttributedModel.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\System.Data.SqlClient.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\System.Drawing.Common.dll

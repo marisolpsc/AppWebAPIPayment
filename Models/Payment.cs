@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Extensions;
+using WebAppPayments.Models.Enumerations;
 
 namespace WebAppPayments.Models
 {
     public partial class Payment
     {
         public int PaymentId { get; set; }
-        public virtual Client Client { get; set; } = null!;
-        public virtual PaymentType PaymentType { get; set; } = null!;
+
+        //public int ClientId { get; set; }
         public DateTime? PaymentDate { get; set; }
         public string? PaymentDescription { get; set; }
         public int? PaymentAmount { get; set; }
-        
+        public PaymentType PaymentTypeId { get; set; }
         [IgnoreDataMember]
-        [JsonIgnore]
-        public int ClientId { get; set; }
-        [IgnoreDataMember]
-        [JsonIgnore]
-        public int PaymentTypeId { get; set; }
+        public virtual Client Client { get; set; }
 
-        
-       
+
+
     }
 }

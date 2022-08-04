@@ -914,6 +914,18 @@
           "lib/netstandard2.1/System.ComponentModel.Annotations.dll": {}
         }
       },
+      "System.Composition.AttributedModel/7.0.0-preview.5.22301.12": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/System.Composition.AttributedModel.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/System.Composition.AttributedModel.dll": {}
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
       "System.Configuration.ConfigurationManager/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -2935,6 +2947,33 @@
         "version.txt"
       ]
     },
+    "System.Composition.AttributedModel/7.0.0-preview.5.22301.12": {
+      "sha512": "/1c8J87we6+U12cbMi3IGiGDx4fXZRyuyH/im0HoQvjbIS/upIhDfrPTeUifsd3TU4k+EcTAtNmsC5q2a+OesA==",
+      "type": "package",
+      "path": "system.composition.attributedmodel/7.0.0-preview.5.22301.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Composition.AttributedModel.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Composition.AttributedModel.targets",
+        "lib/net462/System.Composition.AttributedModel.dll",
+        "lib/net462/System.Composition.AttributedModel.xml",
+        "lib/net6.0/System.Composition.AttributedModel.dll",
+        "lib/net6.0/System.Composition.AttributedModel.xml",
+        "lib/net7.0/System.Composition.AttributedModel.dll",
+        "lib/net7.0/System.Composition.AttributedModel.xml",
+        "lib/netstandard2.0/System.Composition.AttributedModel.dll",
+        "lib/netstandard2.0/System.Composition.AttributedModel.xml",
+        "system.composition.attributedmodel.7.0.0-preview.5.22301.12.nupkg.sha512",
+        "system.composition.attributedmodel.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "System.Configuration.ConfigurationManager/5.0.0": {
       "sha512": "aM7cbfEfVNlEEOj3DsZP+2g9NRwbkyiAv2isQEzw7pnkDg9ekCU2m1cdJLM02Uq691OaCS91tooaxcEn8d0q5w==",
       "type": "package",
@@ -4335,7 +4374,8 @@
       "Microsoft.EntityFrameworkCore.Sqlite.Core >= 7.0.0-preview.6.22329.4",
       "Microsoft.EntityFrameworkCore.Sqlite.Design >= 2.0.0-preview1-final",
       "Microsoft.EntityFrameworkCore.Tools >= 7.0.0-preview.6.22329.4",
-      "Swashbuckle.AspNetCore >= 6.2.3"
+      "Swashbuckle.AspNetCore >= 6.2.3",
+      "System.Composition.AttributedModel >= 7.0.0-preview.5.22301.12"
     ]
   },
   "packageFolders": {
@@ -4420,6 +4460,10 @@
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.2.3, )"
+          },
+          "System.Composition.AttributedModel": {
+            "target": "Package",
+            "version": "[7.0.0-preview.5.22301.12, )"
           }
         },
         "imports": [

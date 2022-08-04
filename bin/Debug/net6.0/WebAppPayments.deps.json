@@ -17,7 +17,8 @@
           "Microsoft.EntityFrameworkCore.Sqlite.Core": "7.0.0-preview.6.22329.4",
           "Microsoft.EntityFrameworkCore.Sqlite.Design": "2.0.0-preview1-final",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.0-preview.6.22329.4",
-          "Swashbuckle.AspNetCore": "6.2.3"
+          "Swashbuckle.AspNetCore": "6.2.3",
+          "System.Composition.AttributedModel": "7.0.0-preview.5.22301.12"
         },
         "runtime": {
           "WebAppPayments.dll": {}
@@ -764,6 +765,14 @@
         }
       },
       "System.ComponentModel.Annotations/4.7.0": {},
+      "System.Composition.AttributedModel/7.0.0-preview.5.22301.12": {
+        "runtime": {
+          "lib/net6.0/System.Composition.AttributedModel.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.30112"
+          }
+        }
+      },
       "System.Configuration.ConfigurationManager/5.0.0": {
         "dependencies": {
           "System.Security.Cryptography.ProtectedData": "5.0.0",
@@ -1474,6 +1483,13 @@
       "sha512": "sha512-0YFqjhp/mYkDGpU0Ye1GjE53HMp9UVfGN7seGpAMttAC0C40v5gw598jCgpbBLMmCo0E5YRLBv5Z2doypO49ZQ==",
       "path": "system.componentmodel.annotations/4.7.0",
       "hashPath": "system.componentmodel.annotations.4.7.0.nupkg.sha512"
+    },
+    "System.Composition.AttributedModel/7.0.0-preview.5.22301.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/1c8J87we6+U12cbMi3IGiGDx4fXZRyuyH/im0HoQvjbIS/upIhDfrPTeUifsd3TU4k+EcTAtNmsC5q2a+OesA==",
+      "path": "system.composition.attributedmodel/7.0.0-preview.5.22301.12",
+      "hashPath": "system.composition.attributedmodel.7.0.0-preview.5.22301.12.nupkg.sha512"
     },
     "System.Configuration.ConfigurationManager/5.0.0": {
       "type": "package",

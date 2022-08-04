@@ -1,7 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Composition;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.OpenApi.Extensions;
 using WebAppPayments.Models;
+using WebAppPayments.Models.DTO;
+using WebAppPayments.Models.Enumerations;
 using WebAppPayments.Models.Response;
 using WebAppPayments.Models.Request;
 
@@ -10,8 +17,6 @@ namespace WebAppPayments.Services
     [Export(typeof(IPaymentService))]
     internal class PaymentService : IPaymentService
     {
-        
-        
         private readonly PaymentsContext _dbContext;
         
         public PaymentService(PaymentsContext context)
@@ -19,45 +24,39 @@ namespace WebAppPayments.Services
             _dbContext = context;
         }
 
-        public IQueryable<Payment>  GetPayments()
+        public IQueryable<PaymentResult> GetPayments()
         {
-
-
-            var paymentsRecords = 
-                from p in _dbContext.Payments  
-                join c in _dbContext.Clients on p.ClientId equals c.ClientId into table1  
-                from c in table1.DefaultIfEmpty()
-                join pt in _dbContext.PaymentTypes on p.PaymentTypeId equals pt.PaymentTypeId into table2  
-                from i in table2.DefaultIfEmpty() 
-                select new Payment() 
-                { 
-                    PaymentId = p.PaymentId,
-                    Client = new Client()
-                    {
-                        Name=c.Name.TrimEnd(),
-                        LastName= c.LastName.TrimEnd()
-                    },
-                    PaymentType = new PaymentType()
-                    {
-                        PaymentType1=GetClients(i.PaymentTypeId)
-                    },
-                    PaymentDate = p.PaymentDate,
-                    PaymentDescription = p.PaymentDescription.TrimEnd(),
-                    PaymentAmount = p.PaymentAmount
-               
-                };
-            return paymentsRecords;
+            var paymentRecords = _dbContext.Payments
+                .Include(c => c.Client)
+                .Select(pt => new PaymentResult
+                {
+                    PaymentId = pt.PaymentId,
+                    Client = pt.Client,
+                    PaymentTypeName = pt.PaymentTypeId.GetDisplayName(),
+                    PaymentDate =pt.PaymentDate,
+                    PaymentDescription =pt.PaymentDescription,
+                    PaymentAmount = pt.PaymentAmount
+                });
+                
+           return paymentRecords;
         }
 
-        public bool CreatePayments(PaymentRequest model)
+        public bool CreatePayments(Payment model)
         {
             bool isCreate = false;
             try
             {
                 Payment payment = new Payment();
-
-                payment.ClientId = model.ClientId;
+                
                 payment.PaymentTypeId = model.PaymentTypeId;
+                
+                payment.Client =_dbContext.Clients.FirstOrDefault(c=>c.Name==model.Client.Name && c.LastName==model.Client.LastName )?? new Client()
+                {
+                    ClientId = model.Client.ClientId,
+                    Name = model.Client.Name,
+                    LastName = model.Client.LastName
+                };
+                
                 payment.PaymentDate = model.PaymentDate;
                 payment.PaymentDescription = model.PaymentDescription;
                 payment.PaymentAmount = model.PaymentAmount;
@@ -74,17 +73,26 @@ namespace WebAppPayments.Services
             return isCreate;
         }
 
-        public bool UpdatePayments(PaymentRequest model)
+        public bool UpdatePayments(Payment model)
         {
             bool isUpdate = false;
             try
             {
                 Payment payment = _dbContext.Payments.Find(model.PaymentId);
-                payment.ClientId = model.ClientId;
-                payment.PaymentTypeId = model.PaymentTypeId;
+                
+                payment.Client =_dbContext.Clients.FirstOrDefault(c=>c.Name==model.Client.Name && c.LastName==model.Client.LastName )?? new Client()
+                {
+                    ClientId = model.Client.ClientId,
+                    Name = model.Client.Name,
+                    LastName = model.Client.LastName
+                };
                 payment.PaymentDate = model.PaymentDate;
                 payment.PaymentDescription = model.PaymentDescription;
                 payment.PaymentAmount = model.PaymentAmount;
+                payment.PaymentTypeId = model.PaymentTypeId;
+                
+                
+                
                 _dbContext.Entry(payment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _dbContext.SaveChanges();
                 
@@ -117,25 +125,5 @@ namespace WebAppPayments.Services
 
             return isDelete;
         }
-
-        public static string GetClients(int PaymentTypeId)
-        {
-            switch (PaymentTypeId)
-            {
-                case 0:
-                    return "Unknown";
-                case 1:
-                    return "CreditCard";
-                case 2:
-                    return "DebitCard";
-                case 3:
-                    return "Paypal";
-                default:
-                    return "Invalid Data for Payment Type";
-                
-            }
-            
-        }
-
     }
 }

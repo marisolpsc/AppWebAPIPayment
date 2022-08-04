@@ -1,13 +1,14 @@
 ﻿using WebAppPayments.Models;
+using WebAppPayments.Models.DTO;
 using WebAppPayments.Models.Request;
 
 namespace WebAppPayments.Services
 {
     public interface IPaymentService
     {
-        IQueryable<Payment> GetPayments();
-        bool CreatePayments(PaymentRequest model);
-        bool UpdatePayments(PaymentRequest model);
+        IQueryable<PaymentResult> GetPayments();
+        bool CreatePayments(Payment model);
+        bool UpdatePayments(Payment model);
         bool DeletePayments(int PaymentId);
         
 

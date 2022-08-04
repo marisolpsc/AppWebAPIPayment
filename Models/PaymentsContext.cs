@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.OpenApi.Extensions;
+using WebAppPayments.Models.Enumerations;
 
 namespace WebAppPayments.Models
 {
@@ -18,7 +21,7 @@ namespace WebAppPayments.Models
 
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
-        public virtual DbSet<PaymentType> PaymentTypes { get; set; } = null!;
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,26 +45,24 @@ namespace WebAppPayments.Models
                     .HasMaxLength(100)
                     .IsFixedLength();
             });
-
+           
             modelBuilder.Entity<Payment>(entity =>
             {
                 entity.ToTable("Payment");
 
                 entity.Property(e => e.PaymentDate).HasColumnType("datetime");
+                
 
                 entity.Property(e => e.PaymentDescription)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-            });
+                    
+                entity.Property(e => e.PaymentTypeId)
+                    .HasConversion(item => item, 
+                        item => (PaymentType)Enum.Parse(typeof(PaymentType), 
+                            item.ToString()));
 
-            modelBuilder.Entity<PaymentType>(entity =>
-            {
-                entity.ToTable("PaymentType");
 
-                entity.Property(e => e.PaymentType1)
-                    .HasMaxLength(100)
-                    .HasColumnName("PaymentType")
-                    .IsFixedLength();
             });
 
             OnModelCreatingPartial(modelBuilder);

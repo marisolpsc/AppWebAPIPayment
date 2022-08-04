@@ -83,6 +83,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
+            },
+            "System.Composition.AttributedModel": {
+              "target": "Package",
+              "version": "[7.0.0-preview.5.22301.12, )"
             }
           },
           "imports": [
