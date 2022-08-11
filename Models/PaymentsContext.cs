@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.OpenApi.Extensions;
 using WebAppPayments.Models.Enumerations;
 
 namespace WebAppPayments.Models
@@ -21,14 +19,9 @@ namespace WebAppPayments.Models
 
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
-        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,33 +30,32 @@ namespace WebAppPayments.Models
             {
                 entity.ToTable("Client");
 
-                entity.Property(e => e.LastName)
-                    .HasMaxLength(100)
-                    .IsFixedLength();
+                entity.Property(e => e.Key).HasMaxLength(50);
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(100)
-                    .IsFixedLength();
+                entity.Property(e => e.LastName).HasMaxLength(100);
+
+                entity.Property(e => e.Name).HasMaxLength(100);
             });
-           
+
             modelBuilder.Entity<Payment>(entity =>
             {
                 entity.ToTable("Payment");
 
                 entity.Property(e => e.PaymentDate).HasColumnType("datetime");
-                
 
                 entity.Property(e => e.PaymentDescription)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-                    
+                
+                
                 entity.Property(e => e.PaymentTypeId)
                     .HasConversion(item => item, 
                         item => (PaymentType)Enum.Parse(typeof(PaymentType), 
-                            item.ToString()));
-
+                            item.ToString() ?? string.Empty));
 
             });
+
+
 
             OnModelCreatingPartial(modelBuilder);
         }

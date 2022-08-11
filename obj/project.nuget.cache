@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ofKZVh0LONQ62x9NyV8lvYCwJ0a/0eByL8MOsaPxb/5PBlVKo4QTX1QmA0uq0Tk2S3OGgtN+UfJ1znglRXa0Kw==",
+  "dgSpecHash": "WE++Yopsm7KtMvqw89pbOHbJF50K12IXPwO/3MfEvpyHmtI95bjtpJSyx4EeP3gDHQ4OCl/9/gUx9ppcdMNYoQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\CMarisol\\RiderProjects\\WebAppPayments\\WebAppPayments\\WebAppPayments.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\CMarisol\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\azure.core\\1.20.0\\azure.core.1.20.0.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\azure.identity\\1.5.0\\azure.identity.1.5.0.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
@@ -51,6 +52,7 @@
     "C:\\Users\\CMarisol\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\netstandard.library\\2.0.0-preview1-25301-01\\netstandard.library.2.0.0-preview1-25301-01.nupkg.sha512",
+    "C:\\Users\\CMarisol\\.nuget\\packages\\newtonsoft.json\\13.0.2-beta1\\newtonsoft.json.13.0.2-beta1.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\CMarisol\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",

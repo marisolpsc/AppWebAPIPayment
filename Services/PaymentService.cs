@@ -2,15 +2,16 @@
 using System.Collections.Immutable;
 using System.Composition;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.OpenApi.Extensions;
 using WebAppPayments.Models;
 using WebAppPayments.Models.DTO;
 using WebAppPayments.Models.Enumerations;
 using WebAppPayments.Models.Response;
-using WebAppPayments.Models.Request;
 
 namespace WebAppPayments.Services
 {
@@ -23,107 +24,149 @@ namespace WebAppPayments.Services
         {
             _dbContext = context;
         }
-
-        public IQueryable<PaymentResult> GetPayments()
+        public IQueryable<PaymentDTO> GetPayments(int page, int pageSize,string clientName, string paymentType)
         {
             var paymentRecords = _dbContext.Payments
-                .Include(c => c.Client)
-                .Select(pt => new PaymentResult
+                .Include(c => c!.Client)
+                .Where(p=>p.Client.Name==clientName && p.PaymentTypeId== (PaymentType)Enum.Parse(typeof(PaymentType),paymentType))
+                .Select(pt => new PaymentDTO()
                 {
-                    PaymentId = pt.PaymentId,
+                    PaymentId = pt!.PaymentId,
+                    Client = pt.Client,
+                    PaymentTypeName = pt.PaymentTypeId.GetDisplayName(),
+                    PaymentDate =pt.PaymentDate,
+                    PaymentDescription =pt.PaymentDescription,
+                    PaymentAmount = pt.PaymentAmount
+                }).Skip((page-1)*pageSize).Take(pageSize);
+            
+           return paymentRecords;
+        }
+
+        public int CreatePayments(PaymentDTOCreate paymentDto)
+        {
+            var savedPaymentId = 0;
+            try
+            {
+                var clientId = _dbContext.Clients.Where(c => c.Key == paymentDto.ClientKey).Select(c => c.ClientId)
+                    .FirstOrDefault();
+                
+                var payment = new Payment();
+                if (clientId>0)
+                {
+                    payment.ClientId =clientId;
+                    if (paymentDto.PaymentType != null)
+                        payment.PaymentTypeId = (PaymentType?)Enum.Parse(typeof(PaymentType), paymentDto.PaymentType);
+                    payment.PaymentDate = paymentDto.PaymentDate;
+                    payment.PaymentDescription = paymentDto.PaymentDescription;
+                    payment.PaymentAmount = paymentDto.PaymentAmount;
+                    
+                    _dbContext.Payments.Add(payment);
+                    _dbContext.SaveChanges();
+
+                    savedPaymentId = payment.PaymentId;
+                }
+
+                return savedPaymentId;
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+            return savedPaymentId;
+        }
+        public IQueryable<PaymentDTO> GetDetails(int id)
+        {
+            var paymentRecords = _dbContext.Payments
+                .Include(c => c!.Client)
+                .Where(p=>p.PaymentId==id)
+                .Select(pt => new PaymentDTO()
+                {
+                    PaymentId = pt!.PaymentId,
                     Client = pt.Client,
                     PaymentTypeName = pt.PaymentTypeId.GetDisplayName(),
                     PaymentDate =pt.PaymentDate,
                     PaymentDescription =pt.PaymentDescription,
                     PaymentAmount = pt.PaymentAmount
                 });
-                
-           return paymentRecords;
+            
+            return paymentRecords;
         }
-
-        public bool CreatePayments(Payment model)
+        
+        public void DeletePayments(int paymentId)
         {
-            bool isCreate = false;
+            var payment = _dbContext.Payments.Find(paymentId);
             try
             {
-                Payment payment = new Payment();
-                
-                payment.PaymentTypeId = model.PaymentTypeId;
-                
-                payment.Client =_dbContext.Clients.FirstOrDefault(c=>c.Name==model.Client.Name && c.LastName==model.Client.LastName )?? new Client()
+                _dbContext.Remove(payment);
+                _dbContext.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+
+        public bool UpdatePayments(PaymentDTOUpdate paymentDto)
+        {
+            var saved = false;
+            try
+            {
+                Payment? payment = _dbContext.Payments.Find(paymentDto.PaymentId);
+                var clientId = _dbContext.Clients.Where(c => c.Key == paymentDto.ClientKey).Select(c => c.ClientId)
+                    .FirstOrDefault();
+
+                if (payment != null && clientId>0)
                 {
-                    ClientId = model.Client.ClientId,
-                    Name = model.Client.Name,
-                    LastName = model.Client.LastName
-                };
-                
-                payment.PaymentDate = model.PaymentDate;
-                payment.PaymentDescription = model.PaymentDescription;
-                payment.PaymentAmount = model.PaymentAmount;
-                _dbContext.Payments.Add(payment);
+                    payment.ClientId = clientId;
+                    payment.PaymentTypeId = (PaymentType)Enum.Parse(typeof(PaymentType),paymentDto.PaymentType);
+                    payment.PaymentDate = paymentDto.PaymentDate;
+                    payment.PaymentDescription = paymentDto.PaymentDescription;
+                    payment.PaymentAmount = paymentDto.PaymentAmount;
+                    
+                    _dbContext.Entry(payment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                }
+
+                _dbContext.SaveChanges();
+                saved = true;
+
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                saved = false;
+
+            }
+
+            return saved;
+
+        }
+
+        public void UpdatePaymentId(PaymentDTOPay paymentDtoPay)
+        {
+            try
+            {
+                Payment? payment = _dbContext.Payments.Find(paymentDtoPay.PaymentId);
+                if (payment != null)
+                {
+                    payment.PaymentDate = paymentDtoPay.PaymentDate;
+                    
+                    _dbContext.Entry(payment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                }
+
                 _dbContext.SaveChanges();
 
-                isCreate = true;
-            }
-            catch
-            {
-                isCreate = false;
-            }
+                
 
-            return isCreate;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
-        public bool UpdatePayments(Payment model)
-        {
-            bool isUpdate = false;
-            try
-            {
-                Payment payment = _dbContext.Payments.Find(model.PaymentId);
-                
-                payment.Client =_dbContext.Clients.FirstOrDefault(c=>c.Name==model.Client.Name && c.LastName==model.Client.LastName )?? new Client()
-                {
-                    ClientId = model.Client.ClientId,
-                    Name = model.Client.Name,
-                    LastName = model.Client.LastName
-                };
-                payment.PaymentDate = model.PaymentDate;
-                payment.PaymentDescription = model.PaymentDescription;
-                payment.PaymentAmount = model.PaymentAmount;
-                payment.PaymentTypeId = model.PaymentTypeId;
-                
-                
-                
-                _dbContext.Entry(payment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _dbContext.SaveChanges();
-                
-                isUpdate = true;
-            }
-            catch
-            {
-                isUpdate = false;
-            }
-
-            return isUpdate;
-
-
-        }
-
-        public bool DeletePayments(int PaymentId)
-        {
-            bool isDelete = false;
-            try
-            {
-               
-                Payment payment =_dbContext.Payments.Find(PaymentId);
-                 _dbContext.Remove(payment);
-                 _dbContext.SaveChanges();
-                 
-            }catch
-            {
-                isDelete = false;
-            }
-
-            return isDelete;
-        }
     }
 }

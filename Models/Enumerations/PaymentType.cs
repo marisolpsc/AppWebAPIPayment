@@ -6,5 +6,5 @@ public enum PaymentType
 {
     CreditCard=1,
     DebitCard=2,
-    Paypal=3,
+    PayPal=3,
 }

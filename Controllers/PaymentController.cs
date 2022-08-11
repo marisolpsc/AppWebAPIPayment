@@ -1,11 +1,6 @@
-﻿using System.Collections.Immutable;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebAppPayments.Models.Response;
-using WebAppPayments.Models;
-using WebAppPayments.Models.Request;
-using System.Data.Entity;
-using System.Globalization;
+using WebAppPayments.Models.DTO;
 using WebAppPayments.Services;
 
 namespace WebAppPayments.Controllers;
@@ -15,7 +10,6 @@ namespace WebAppPayments.Controllers;
 public class PaymentController : Controller
 {
     private readonly IPaymentService _paymentService;
-    
 
     public PaymentController(IPaymentService paymentService)
     {
@@ -23,96 +17,136 @@ public class PaymentController : Controller
     }
     
     [HttpGet]
-    public IActionResult Read()
+    public ActionResult<Response> Read(string clientName, string paymentType,int page,  int pageSize = 10)
     {
-        Response response = new Response();
+        var response = new Response();
         try
         {
-            var paymentsList = _paymentService.GetPayments().ToList();
+            var paymentsList = _paymentService.GetPayments(page,pageSize,clientName,paymentType).ToList();
             
-            response.ResponseCode = "Sucess";
+            response.ResponseCode = "Success";
             response.Message = "Ok";
             response.Payments = paymentsList;
-            
         }
         catch(Exception ex)
         {
-            response.Message = ex.Message;
-            response.ResponseCode = "Fail";
+            response.Message =ex.Message;
+            return StatusCode(StatusCodes.Status500InternalServerError, response);
         }
-        return Ok(response);
+        return response;
     }
     [HttpPost]
-    public IActionResult Create(Payment model)
+    public ActionResult<ResponseCreate> Create(PaymentDTOCreate  paymentDto)
     {
-        Response response = new Response();
+        var response = new ResponseCreate();
         try
         {
-            var isCreate=_paymentService.CreatePayments(model);
-            var paymentsList = _paymentService.GetPayments().ToList();
-            if (isCreate == true)
+            var savedPaymentId= _paymentService.CreatePayments(paymentDto);
+            if (savedPaymentId > 0)
             {
-                response.Payments = paymentsList;
-                response.ResponseCode = "Sucess";
+                response.ResponseCode = "Success";
                 response.Message = "Ok";
+                response.SavedPaymentId = savedPaymentId;
+            }
+            else
+            {
+                response.Message = "Something went wrong";
+                response.SavedPaymentId = 0;
+                response.ResponseCode = StatusCodes.Status500InternalServerError.ToString();
             }
         }
         catch (Exception ex)
         {
-            
-            response.Message = ex.Message;
-            response.ResponseCode = "Fail";
+            response.Message =ex.Message;
+            return StatusCode(StatusCodes.Status500InternalServerError, response);
         }
-
-        return Ok(response);
+        return response;
     }
-    [HttpPut]
-    public IActionResult Update(Payment model)
+    [HttpGet("{id:int}")]
+    public ActionResult<Response> Details(int id)
     {
-        Response response = new Response();
+        var response = new Response();
         try
         {
-            var isCreate=_paymentService.UpdatePayments(model);
-            var paymentsList = _paymentService.GetPayments().ToList();
-                 
-            if (isCreate == true)
-            {
-                response.Payments = paymentsList;
-                response.ResponseCode = "Sucess"; 
-                response.Message = "Ok";
-            }
+            var paymentsList = _paymentService.GetDetails(id);
+            
+            response.ResponseCode = "Success";
+            response.Message = "Ok";
+            response.Payments = paymentsList;
+        }
+        catch(Exception ex)
+        {
+            response.Message =ex.Message;
+            return StatusCode(StatusCodes.Status500InternalServerError, response);
+        }
+        return response;
+    }
+    [HttpDelete("{paymentId}")]
+    public ActionResult<Response> Delete(int paymentId)
+    {
+        var response = new Response();
+        try
+        {
+            _paymentService.DeletePayments(paymentId);
+            response.ResponseCode = "Success";
+            response.Message = "Ok";
         }
         catch (Exception ex)
         {
-            response.Message = ex.Message;
-            response.ResponseCode = "Fail";
+            response.Message =ex.Message;
+            return StatusCode(StatusCodes.Status500InternalServerError, response);
+        }
+        return response;
+    }
+    
+    [HttpPut]
+    public ActionResult<Response> Update(PaymentDTOUpdate paymentDto)
+    {
+        var response = new Response();
+        try
+        {
+            var updatePayment=_paymentService.UpdatePayments(paymentDto);
+
+            if (updatePayment == true)
+            {
+                response.ResponseCode = "Success";
+                response.Message = "Ok";
+            }
+            else
+            {
+                response.Message = "Something went wrong";
+                response.ResponseCode = StatusCodes.Status500InternalServerError.ToString();
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            response.Message =ex.Message;
+            return StatusCode(StatusCodes.Status500InternalServerError, response);
         }
         
-        return Ok(response);
+        return response;
     }
-    [HttpDelete("{PaymentId}")]
-    public IActionResult Delete(int PaymentId)
+    [HttpPut("UpdatePay")]
+    public ActionResult<Response> UpdatePaymentId(PaymentDTOPay paymentDtoPay)
     {
-        Response response = new Response();
+        var response = new Response();
         try
         {
-            var isDelete=_paymentService.DeletePayments(PaymentId);
-            var paymentsList = _paymentService.GetPayments().ToList();
-            
-            if (isDelete == true)
-            {
-                response.Payments = paymentsList;
-                response.ResponseCode = "Sucess";
-                response.Message = "Ok";
-            }
+            _paymentService.UpdatePaymentId(paymentDtoPay);
+            response.ResponseCode = "Success";
+            response.Message = "Ok";
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
-            response.Message = ex.Message;
-            response.ResponseCode = "Fail";
+            response.Message =ex.Message;
+            return StatusCode(StatusCodes.Status500InternalServerError, response);
         }
-        return Ok(response);
+
+        return response;
+
     }
 
-  
+
+
 }

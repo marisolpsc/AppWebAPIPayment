@@ -5,6 +5,7 @@ C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\W
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\WebAppPayments.runtimeconfig.json
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\WebAppPayments.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\WebAppPayments.pdb
+C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\Azure.Core.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\Azure.Identity.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\EntityFramework.SqlServer.dll
@@ -42,6 +43,7 @@ C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\M
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\Mono.TextTemplating.dll
+C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\SQLitePCLRaw.batteries_v2.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\SQLitePCLRaw.core.dll
 C:\Users\CMarisol\RiderProjects\WebAppPayments\WebAppPayments\bin\Debug\net6.0\SQLitePCLRaw.provider.e_sqlite3.dll
